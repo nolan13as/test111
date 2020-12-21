@@ -1,24 +1,7 @@
-# code
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+ 1. Клонируйте репозиторий
+ 2. Перейдите в корень проекта
+ 3. Выполните команду `npm install`
+ 4. Для запуска локального сервера разработки выполните команду `npm run serve`
+ 5. Для создания окончательной сборки выполните команду `npm run build`, файлы окончательной сборки появятся в папке dist
+ 6. Все исходные файлы находятся в папке src
+ 7. Индексный файл находится в папке public (index.html)
