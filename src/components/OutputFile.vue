@@ -50,7 +50,7 @@ export default {
           this.width = imageEl.width;
           this.height = imageEl.height;
           setTimeout(() => {
-            this.download();
+            this.updateSvg();
           }, 0);
         };
         imageEl.src = this.image;
@@ -68,6 +68,14 @@ export default {
       setTimeout(() => {
         this.$emit('reset');
       }, 0);
+    },
+    updateSvg() {
+      const svgString = new XMLSerializer().serializeToString(this.$refs.svg);
+      const decoded = unescape(encodeURIComponent(svgString));
+      window.parent.postMessage({
+        type: 'updateSvg',
+        svgBase64: `data:image/svg+xml;base64,${btoa(decoded)}`,
+      }, '*');
     },
   },
 };

@@ -103,7 +103,7 @@ export default {
     },
   },
   created() {
-    axios.get('https://fromrussia.to/ajax/flatfeed.php').then((r) => {
+    axios.get(`${window.QUERY_ORIGIN}/ajax/flatfeed.php`).then((r) => {
       this.items = r.data.map((item) => (
         Object.assign(item, { name: item.name.replace(/&quot;/g, '"') })
       ));
