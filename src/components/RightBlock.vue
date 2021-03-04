@@ -2,7 +2,7 @@
   <div class=" h-100 items-block">
     <div class="row justify-content-center mb-2 mt-1">
       <div class="col-6">
-        <select class="form-select" v-model="brand">
+        <select hidden class="form-select" v-model="brand">
           <option :value="null">Все бренды</option>
           <option
             v-for="(brand, i) in brands"
@@ -16,7 +16,8 @@
     <div class="row justify-content-center mb-2">
       <div class="col-6">
         <select class="form-select" v-model="type">
-          <option :value="null">Все типы</option>
+          <option :value="null">Тип</option>
+          {{ types }}
           <option
             v-for="(type, i) in types"
             :key="i"
@@ -48,7 +49,8 @@
       <div
         class="row justify-content-center"
         v-for="(item, i) in items" :key="i"
-        v-show="(!brand || item.brand === brand) && (!type || item.type === type) && !item.hidden">
+        v-show="(!brand || item.brand === brand) && (!type || item.section_name === type) &&
+         !item.hidden">
         <div class="col-6">
           <div class="card mb-3">
             <img
@@ -96,10 +98,21 @@ export default {
         .map((item) => item.brand);
       return [...new Set(brands)];
     },
+    // eslint-disable-next-line consistent-return,vue/return-in-computed-property
     types() {
-      const types = this.items.filter((item) => item.type.length)
-        .map((item) => item.type);
-      return [...new Set(types)];
+      try {
+        // eslint-disable-next-line array-callback-return
+        const types = this.items.filter((item) => {
+          if (item.section_name != null) {
+            // eslint-disable-next-line no-unused-expressions
+            item.section_name.length;
+          }
+        })
+          .map((item) => item.section_name);
+        return [...new Set(types)];
+      } catch (e) {
+        console.log('1');
+      }
     },
   },
   created() {
@@ -107,7 +120,11 @@ export default {
       this.items = r.data.map((item) => (
         Object.assign(item, { name: item.name.replace(/&quot;/g, '"') })
       ));
-      // .slice(0, 5)
+      this.items.forEach((item) => {
+        if (item.section_name && !this.types.includes(item.section_name)) {
+          this.types.push(item.section_name);
+        }
+      });
     });
   },
   methods: {
