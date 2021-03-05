@@ -45,6 +45,14 @@
         </div>
       </div>
     </div>
+      <div class="row justify-content-lg-around">
+        <div class="col-6">
+          <div class="form-check">
+            <input class="form-check-input" id="favorite" type="checkbox">
+            <label class="form-check-label" for="favorite"> Избранное </label>
+          </div>
+        </div>
+      </div>
     <div>
       <div
         class="row justify-content-center"
@@ -98,21 +106,10 @@ export default {
         .map((item) => item.brand);
       return [...new Set(brands)];
     },
-    // eslint-disable-next-line consistent-return,vue/return-in-computed-property
     types() {
-      try {
-        // eslint-disable-next-line array-callback-return
-        const types = this.items.filter((item) => {
-          if (item.section_name != null) {
-            // eslint-disable-next-line no-unused-expressions
-            item.section_name.length;
-          }
-        })
-          .map((item) => item.section_name);
-        return [...new Set(types)];
-      } catch (e) {
-        console.log('1');
-      }
+      const types = this.items.filter((item) => item.section_name != null
+        && item.section_name.length).map((item) => item.section_name);
+      return [...new Set(types)];
     },
   },
   created() {

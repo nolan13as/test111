@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -73,9 +75,37 @@ export default {
       this.$store.commit('setMarkerSize', markerSize);
     },
   },
+  mounted() {
+    // eslint-disable-next-line no-undef
+    console.log(this.$store);
+    function updateURL() {
+      // eslint-disable-next-line no-restricted-globals
+      if (history.pushState) {
+        const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+        const newUrl = `${baseUrl}?room_id:23,project_id:75`;
+        // eslint-disable-next-line no-restricted-globals
+        history.pushState(null, null, newUrl);
+      } else {
+        console.warn('History API не поддерживает ваш браузер');
+      }
+    }
+    updateURL();
+    // eslint-disable-next-line no-restricted-globals
+    const roomId = location.search.slice(1).split(',')[0].split(':')[1];
+    // eslint-disable-next-line no-restricted-globals
+    const projId = location.search.slice(1).split(',')[1].split(':')[1];
+    // eslint-disable-next-line no-restricted-globals
+    console.log(roomId);
+    console.log(projId);
+    axios.get(`/api/${projId}/room/${roomId}`).then((response) => {
+      this.load_file_auto(response);
+      this.$store.commit('setDownloadTrigger');
+    });
+  },
   methods: {
     openFile(e) {
       const { files } = e.target;
+      // eslint-disable-next-line no-console
       if (!files.length) return;
       if (!files[0].type.match(/jpeg|gif|bmp|png|jpg/i)) {
         const text = 'Выбранный файл не является изображением';
@@ -89,6 +119,15 @@ export default {
       };
       fileReader.readAsDataURL(files[0]);
       e.target.value = null;
+    },
+    load_file_auto(canvas) {
+      const { files } = canvas;
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        const file = fileReader.result;
+        this.loadImage(file);
+      };
+      fileReader.readAsDataURL(files[0]);
     },
     loadImage(src) {
       const image = new Image();
