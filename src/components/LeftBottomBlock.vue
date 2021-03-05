@@ -8,6 +8,12 @@
               Назад
             </button>
           </div>
+          <div class="col text-start text-md-center">
+            <button class="btn btn-outline-danger main-btns"
+              @click="clear_images()">
+              Очистить
+            </button>
+          </div>
           <div class="col text-end text-md-center">
             <button
               class="btn btn-primary main-btns"
@@ -23,7 +29,11 @@
 
 <script>
 export default {
-
+  methods: {
+    clear_images() {
+      this.$store.commit('clear_images', []);
+    },
+  },
 };
 </script>
 
