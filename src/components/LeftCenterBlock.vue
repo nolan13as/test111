@@ -65,7 +65,6 @@ export default {
         type: 'bgRect',
       },
       bgImgConfig: {},
-      images: [],
       activeItemId: null,
       contextMenuEvent: null,
       outputImage: null,
@@ -73,6 +72,7 @@ export default {
     };
   },
   computed: {
+    images() { return this.$store.state.clearListImages; },
     downloadTrigger() { return this.$store.state.downloadTrigger; },
     onlyMarkers() { return this.$store.state.onlyMarkers; },
     markerSize() { return this.$store.state.markerSize; },
