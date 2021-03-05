@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   data() {
@@ -97,10 +97,10 @@ export default {
     // eslint-disable-next-line no-restricted-globals
     console.log(roomId);
     console.log(projId);
-    axios.get(`/api/${projId}/room/${roomId}`).then((response) => {
-      this.load_file_auto(response);
-      this.$store.commit('setDownloadTrigger');
-    });
+    // axios.get(`/api/${projId}/room/${roomId}`).then((response) => {
+    //   this.load_file_auto(response);
+    //   this.$store.commit('setDownloadTrigger');
+    // });
   },
   methods: {
     openFile(e) {
