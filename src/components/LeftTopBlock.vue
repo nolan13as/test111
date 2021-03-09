@@ -27,6 +27,7 @@
               class="form-check-input float-end ms-2"
               type="checkbox"
               id="switchOnlyMarkers"
+              @change="check_imgaes_exist(onlyMarkers)"
               v-model="onlyMarkers">
             <label class="form-check-label" for="switchOnlyMarkers">
               <span class="d-md-none">Разметка</span>
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 
 export default {
   data() {
@@ -75,14 +76,16 @@ export default {
       this.$store.commit('setMarkerSize', markerSize);
     },
   },
+  computed: {
+    images() { return this.$store.state.clearListImages; },
+  },
   mounted() {
     // eslint-disable-next-line no-undef
-    console.log(this.$store);
     function updateURL() {
       // eslint-disable-next-line no-restricted-globals
       if (history.pushState) {
         const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-        const newUrl = `${baseUrl}?room_id:23,project_id:75`;
+        const newUrl = `${baseUrl}?project_id:25,room_id:226,type:products`;
         // eslint-disable-next-line no-restricted-globals
         history.pushState(null, null, newUrl);
       } else {
@@ -95,14 +98,33 @@ export default {
     // eslint-disable-next-line no-restricted-globals
     const projId = location.search.slice(1).split(',')[1].split(':')[1];
     // eslint-disable-next-line no-restricted-globals
+    const type = location.search.slice(1).split(',')[2].split(':')[1];
+    // eslint-disable-next-line no-restricted-globals,no-console
     console.log(roomId);
+    // eslint-disable-next-line no-console
     console.log(projId);
-    // axios.get(`/api/${projId}/room/${roomId}`).then((response) => {
-    //   this.load_file_auto(response);
-    //   this.$store.commit('setDownloadTrigger');
-    // });
+    // eslint-disable-next-line no-console
+    console.log(type);
+    axios.get(`/planhome.online/ajax/room_img.php?room_id=${roomId}&type=${type}`).then((response) => {
+      // eslint-disable-next-line no-console
+      console.log(response);
+      this.load_file_auto(response);
+      this.$store.commit('setDownloadTrigger');
+    });
   },
   methods: {
+    check_imgaes_exist(onlyMarkers) {
+      if (this.images.length && onlyMarkers) {
+        // eslint-disable-next-line no-restricted-globals,no-alert
+        const agree = confirm('нажимая ок, Вы удалите все с рабочей области');
+        if (agree) {
+          this.$store.commit('clear_images', []);
+          console.log('agree');
+        } else {
+          console.log('not agree');
+        }
+      }
+    },
     openFile(e) {
       const { files } = e.target;
       // eslint-disable-next-line no-console
