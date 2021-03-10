@@ -85,27 +85,26 @@ export default {
       // eslint-disable-next-line no-restricted-globals
       if (history.pushState) {
         const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-        const newUrl = `${baseUrl}?project_id:25,room_id:226,type:products`;
         // eslint-disable-next-line no-restricted-globals
-        history.pushState(null, null, newUrl);
+        history.pushState(null, null, baseUrl);
       } else {
         console.warn('History API не поддерживает ваш браузер');
       }
     }
     updateURL();
     // eslint-disable-next-line no-restricted-globals
-    const roomId = location.search.slice(1).split(',')[0].split(':')[1];
+    const projId = location.search.slice(1).split(',')[0].split(':')[1];
     // eslint-disable-next-line no-restricted-globals
-    const projId = location.search.slice(1).split(',')[1].split(':')[1];
+    const roomId = location.search.slice(1).split(',')[1].split(':')[1];
     // eslint-disable-next-line no-restricted-globals
     const type = location.search.slice(1).split(',')[2].split(':')[1];
     // eslint-disable-next-line no-restricted-globals,no-console
-    console.log(roomId);
-    // eslint-disable-next-line no-console
     console.log(projId);
     // eslint-disable-next-line no-console
+    console.log(roomId);
+    // eslint-disable-next-line no-console
     console.log(type);
-    axios.get(`/planhome.online/ajax/room_img.php?room_id=${roomId}&type=${type}`).then((response) => {
+    axios.get(`/ajax/room_img.php?room_id=${roomId}&type=${type}`).then((response) => {
       // eslint-disable-next-line no-console
       console.log(response);
       this.load_file_auto(response);

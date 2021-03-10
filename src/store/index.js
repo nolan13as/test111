@@ -11,7 +11,7 @@ export default new Vuex.Store({
     onlyMarkers: false,
     markerSize: 2,
     outputWidth: 1600,
-    clearListImages: [123123],
+    clearListImages: [],
   },
   mutations: {
     addToast(state, toast) {
