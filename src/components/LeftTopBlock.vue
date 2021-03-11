@@ -27,8 +27,7 @@
               class="form-check-input float-end ms-2"
               type="checkbox"
               id="switchOnlyMarkers"
-              @change="check_imgaes_exist(onlyMarkers)"
-              v-model="onlyMarkers">
+              @change="check_imgaes_exist(onlyMarkers)">
             <label class="form-check-label" for="switchOnlyMarkers">
               <span class="d-md-none">Разметка</span>
               <span class="d-none d-md-inline">Только разметка</span>
@@ -64,20 +63,17 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      onlyMarkers: false,
       markerSize: 2,
     };
   },
   watch: {
-    onlyMarkers(onlyMarkers) {
-      this.$store.commit('toggleOnlyMarkers', onlyMarkers);
-    },
     markerSize(markerSize) {
       this.$store.commit('setMarkerSize', markerSize);
     },
   },
   computed: {
     images() { return this.$store.state.clearListImages; },
+    onlyMarkers() { return this.$store.state.onlyMarkers; },
   },
   mounted() {
     // eslint-disable-next-line no-undef
@@ -113,15 +109,19 @@ export default {
   },
   methods: {
     check_imgaes_exist(onlyMarkers) {
-      if (this.images.length && onlyMarkers) {
+      console.log(onlyMarkers);
+      if (this.images.length) {
         // eslint-disable-next-line no-restricted-globals,no-alert
         const agree = confirm('нажимая ок, Вы удалите все с рабочей области');
         if (agree) {
           this.$store.commit('clear_images', []);
-          console.log('agree');
+          this.$store.commit('toggleOnlyMarkers');
         } else {
-          console.log('not agree');
+          // eslint-disable-next-line no-multi-assign
+          document.getElementById('switchOnlyMarkers').checked = Boolean(onlyMarkers);
         }
+      } else {
+        this.$store.commit('toggleOnlyMarkers');
       }
     },
     openFile(e) {

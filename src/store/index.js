@@ -19,7 +19,9 @@ export default new Vuex.Store({
     },
     setDownloadTrigger(state) { state.downloadTrigger = Math.random(); },
     setInfo(state, info) { state.info = info; },
-    toggleOnlyMarkers(state, onlyMarkers) { state.onlyMarkers = onlyMarkers; },
+    toggleOnlyMarkers(state) {
+      Vue.set(state, 'onlyMarkers', !state.onlyMarkers);
+    },
     setMarkerSize(state, markerSize) { state.markerSize = markerSize; },
     clear_images(state, clearListImages) {
       Vue.set(state, 'clearListImages', clearListImages);
