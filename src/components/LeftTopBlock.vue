@@ -89,6 +89,11 @@ export default {
     }
     updateURL();
     // eslint-disable-next-line no-restricted-globals
+    console.log(location);
+    console.log(window);
+    // eslint-disable-next-line no-undef
+    console.log(baseUrl);
+    // eslint-disable-next-line no-restricted-globals
     const projId = location.search.slice(1).split(',')[0].split(':')[1];
     // eslint-disable-next-line no-restricted-globals
     const roomId = location.search.slice(1).split(',')[1].split(':')[1];
