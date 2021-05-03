@@ -90,6 +90,9 @@ export default {
     updateURL();
     // eslint-disable-next-line no-restricted-globals
     console.log(location);
+    // eslint-disable-next-line no-restricted-globals
+    console.log(location.search);
+    console.log('location.search 111111');
     console.log(window);
     // eslint-disable-next-line no-restricted-globals
     console.log(history);

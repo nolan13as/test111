@@ -98,6 +98,7 @@ export default {
       brand: null,
       type: null,
       search: '',
+      favorites: [],
     };
   },
   computed: {
@@ -113,8 +114,11 @@ export default {
     },
   },
   created() {
-    axios.get(`${window.QUERY_ORIGIN}/ajax/flatfeed.php`).then((r) => {
-      this.items = r.data.map((item) => (
+    axios.get(`${window.QUERY_ORIGIN}/ajax/flatfeed.php?get-favorites=1`).then((r) => {
+      this.items = r.data.products.map((item) => (
+        Object.assign(item, { name: item.name.replace(/&quot;/g, '"') })
+      ));
+      this.favorites = r.data.favorites.map((item) => (
         Object.assign(item, { name: item.name.replace(/&quot;/g, '"') })
       ));
       this.items.forEach((item) => {
@@ -125,6 +129,12 @@ export default {
     });
   },
   methods: {
+    test() {
+      console.log(this.favorites);
+      console.log(this.items);
+      console.log(this.brands);
+      console.log(this.types);
+    },
     dragImg(item, e) {
       e.dataTransfer.setData(
         'text/plain',
